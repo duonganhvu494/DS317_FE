@@ -1,84 +1,61 @@
-import { Table, Tag, Progress } from "antd";
+import { Table, Tag } from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const data = [
-  {
-    key: "C_101",
-    course: "Machine Learning Advanced",
-    instructor: "David Park",
-    category: "Data Science",
-    students: 560,
-    rating: 4.9,
-    completion: 65,
-    satisfaction: 94,
-    quality: "Excellent"
-  },
-  {
-    key: "C_102",
-    course: "Data Science Fundamentals",
-    instructor: "Michael Chen",
-    category: "Data Science",
-    students: 980,
-    rating: 4.8,
-    completion: 72,
-    satisfaction: 91,
-    quality: "Excellent"
-  }
-];
+import axiosClient from "../../api/axiosClient";
 
 export default function CourseDetailsTable() {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axiosClient.get("/courses").then(res => {
+      setCourses(res.data);
+      setLoading(false);
+    });
+  }, []);
+  // console.log(courses);
 
   const columns = [
     {
       title: "Course",
-      dataIndex: "course",
       render: (_, r) => (
         <>
-          <div style={{ fontWeight: 500 }}>{r.course}</div>
-          <div style={{ fontSize: 12, color: "#888" }}>
-            {r.instructor}
-          </div>
+          <div style={{ fontWeight: 500 }}>{r.name_en}</div>
         </>
       )
     },
     {
-      title: "Category",
-      dataIndex: "category",
-      render: v => <Tag>{v}</Tag>
-    },
-    {
-      title: "Students",
-      dataIndex: "students"
-    },
-    {
-      title: "Rating",
-      dataIndex: "rating"
+      title: "Field",
+      render: (_, r) =>
+        r.field_en && r.field_en.length > 0 ? (
+          r.field_en.map(f => <Tag key={f}>{f}</Tag>)
+        ) : (
+          <Tag> <span style={{color: "#999"}}>NG</span> </Tag>
+        )
     },
     {
       title: "Completion",
-      dataIndex: "completion",
-      render: v => <Progress percent={v} size="small" />
+      dataIndex: "completion_rate"
     },
     {
-      title: "Satisfaction",
-      dataIndex: "satisfaction",
-      render: v => `${v}%`
+      title: "Sentiment",
+      dataIndex: "sentiment_index"
     },
     {
-      title: "Quality",
-      dataIndex: "quality",
-      render: v => <Tag color="green">{v}</Tag>
+      title: "Rank",
+      dataIndex: "final_rank"
     }
   ];
 
   return (
     <Table
+      rowKey="_id"
       columns={columns}
-      dataSource={data}
-      pagination={false}
+      dataSource={courses}
+      loading={loading}
       onRow={(record) => ({
-        onClick: () => navigate(`/courses/${record.key}`)
+        onClick: () => navigate(`/courses/${record._id}`)
       })}
       style={{ cursor: "pointer" }}
     />

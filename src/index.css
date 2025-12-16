@@ -36,3 +36,12 @@ a {
 a:hover {
   color: #0958d9;
 }
+
+.danger-row-critical td {
+  background: #fff1f0 !important;
+}
+
+.danger-row-warning td {
+  background: #fffbe6 !important;
+}
+

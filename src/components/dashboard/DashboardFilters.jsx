@@ -1,50 +1,77 @@
-import { Card, Row, Col, Select } from "antd";
-import { FilterOutlined } from "@ant-design/icons";
+import { Card, Select, Spin } from "antd";
+import { useEffect, useState } from "react";
+import axiosClient from "../../api/axiosClient";
 
-export default function DashboardFilters() {
+const { Option } = Select;
+
+const FILTER_CACHE_KEY = "course_filters_cache";
+const FILTER_CACHE_TTL = 10 * 60 * 1000;
+
+function getCachedFilters() {
+  const cached = localStorage.getItem(FILTER_CACHE_KEY);
+  if (!cached) return null;
+
+  const { data, time } = JSON.parse(cached);
+  if (Date.now() - time > FILTER_CACHE_TTL) return null;
+
+  return data;
+}
+
+export default function DashboardFilters({ onChange }) {
+  const [options, setOptions] = useState(() => getCachedFilters());
+
+  useEffect(() => {
+    if (options) return;
+
+    axiosClient.get("/courses/courseFilters").then(res => {
+      setOptions(res.data);
+
+      localStorage.setItem(
+        FILTER_CACHE_KEY,
+        JSON.stringify({
+          data: res.data,
+          time: Date.now()
+        })
+      );
+    });
+  }, []);
+
+  if (!options) return <Spin />;
+
+  function updateFilter(key, value) {
+    onChange(prev => ({
+      ...prev,
+      [key]: value || undefined
+    }));
+  }
+
   return (
     <Card style={{ marginBottom: 24 }}>
-      <Row gutter={24} align="middle">
-        <Col span={24} style={{ marginBottom: 8 }}>
-          <FilterOutlined /> <strong>Filters</strong>
-        </Col>
+      <Select
+        allowClear
+        placeholder="Filter by Field"
+        style={{ width: 240, marginRight: 16 }}
+        onChange={v => updateFilter("field", v)}
+      >
+        {options.fields.map(f => (
+          <Option key={f} value={f}>
+            {f}
+          </Option>
+        ))}
+      </Select>
 
-        <Col span={8}>
-          <label>Category</label>
-          <Select
-            defaultValue="All Categories"
-            style={{ width: "100%" }}
-            options={[
-              { value: "all", label: "All Categories" },
-              { value: "cs", label: "Computer Science" },
-              { value: "ds", label: "Data Science" }
-            ]}
-          />
-        </Col>
-
-        <Col span={8}>
-          <label>Instructor</label>
-          <Select
-            defaultValue="All Instructors"
-            style={{ width: "100%" }}
-            options={[
-              { value: "all", label: "All Instructors" }
-            ]}
-          />
-        </Col>
-
-        <Col span={8}>
-          <label>Date Range</label>
-          <Select
-            defaultValue="Last 6 Months"
-            style={{ width: "100%" }}
-            options={[
-              { value: "6m", label: "Last 6 Months" },
-              { value: "12m", label: "Last 12 Months" }
-            ]}
-          />
-        </Col>
-      </Row>
+      <Select
+        allowClear
+        placeholder="Filter by School"
+        style={{ width: 300 }}
+        onChange={v => updateFilter("school", v)}
+      >
+        {options.schools.map(s => (
+          <Option key={s} value={s}>
+            {s}
+          </Option>
+        ))}
+      </Select>
     </Card>
   );
 }

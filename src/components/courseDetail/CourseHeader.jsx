@@ -1,8 +1,8 @@
-import { ArrowLeftOutlined, StarFilled } from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 
-export default function CourseHeader() {
+export default function CourseHeader({ course }) {
   const navigate = useNavigate();
 
   return (
@@ -11,25 +11,20 @@ export default function CourseHeader() {
         style={{ cursor: "pointer", color: "#1677ff", marginBottom: 8 }}
         onClick={() => navigate(-1)}
       >
-        <ArrowLeftOutlined /> Back to Dashboard
+        <ArrowLeftOutlined /> Back
       </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>
-          <h2 style={{ marginBottom: 4 }}>
-            Cloud Computing Essentials <Tag>Computer Science</Tag>
-          </h2>
-          <div style={{ color: "#888" }}>
-            Taught by Michael Chen · Course ID: CS301
-          </div>
-        </div>
+      <h2 style={{ marginBottom: 4 }}>{course.name_en}</h2>
 
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 24, fontWeight: 600 }}>
-            <StarFilled style={{ color: "#fadb14" }} /> 4.8
-          </div>
-          <div style={{ color: "#888" }}>720 students</div>
-        </div>
+      <div style={{ color: "#888" }}>
+        {course.school?.join(", ")} ·{" "}
+        {course.teacher?.join(", ")}
+      </div>
+
+      <div style={{ marginTop: 8 }}>
+        {course.field_en?.length > 0
+          ? course.field_en.map(f => <Tag key={f}>{f}</Tag>)
+          : <Tag color="default">Not given</Tag>}
       </div>
     </div>
   );

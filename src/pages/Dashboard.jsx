@@ -1,23 +1,28 @@
-import { Row, Col, Card } from "antd";
+import { Row, Col, Card, Spin } from "antd";
+import { useState } from "react";
+import { WarningOutlined } from "@ant-design/icons";
 
 import DashboardFilters from "../components/dashboard/DashboardFilters";
 import DashboardStats from "../components/dashboard/DashboardStats";
 import CategoryPerformanceChart from "../components/dashboard/CategoryPerformanceChart";
 import InstructorPerformanceChart from "../components/dashboard/InstructorPerformanceChart";
-
 import OverallQualityRadar from "../components/dashboard/OverallQualityRadar";
 import EngagementCompletionScatter from "../components/dashboard/EngagementCompletionScatter";
-import CourseDetailsTable from "../components/dashboard/CourseDetailsTable";
+import DangerCourseTable from "../components/dashboard/DangerCourseTable";
 
 export default function Dashboard() {
+  const [filters, setFilters] = useState({});
+
   return (
     <>
       <h1>📊 Dashboard</h1>
 
-      {/* PART 1 */}
-      <DashboardFilters />
-      <DashboardStats />
+      <DashboardFilters onChange={setFilters} />
 
+      {/* ===== KPI ===== */}
+      <DashboardStats filters={filters} />
+
+      {/* ===== CHART (GIỮ MOCK) ===== */}
       <Row gutter={24} style={{ marginBottom: 24 }}>
         <Col span={12}>
           <CategoryPerformanceChart />
@@ -27,7 +32,6 @@ export default function Dashboard() {
         </Col>
       </Row>
 
-      {/* PART 2 */}
       <Row gutter={24} style={{ marginBottom: 24 }}>
         <Col span={12}>
           <OverallQualityRadar />
@@ -37,13 +41,18 @@ export default function Dashboard() {
         </Col>
       </Row>
 
+      {/* ===== DANGER COURSES ===== */}
       <Card
-        title="Course Details"
+        title={
+          <>
+            <WarningOutlined style={{ color: "#fa541c" }} /> Danger Courses
+          </>
+        }
         extra={<span style={{ color: "#888" }}>
-          Detailed breakdown of all courses
+          Courses with final rank below 3
         </span>}
       >
-        <CourseDetailsTable />
+        <DangerCourseTable filters={filters} />
       </Card>
     </>
   );
