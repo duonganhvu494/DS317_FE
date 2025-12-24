@@ -1,0 +1,49 @@
+/* ===== Wrapper ===== */
+.course-header {
+  margin-bottom: 28px;
+  max-width: 1100px;
+}
+
+/* ===== Back ===== */
+.course-back {
+  cursor: pointer;
+  color: #1677ff;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* ===== Title ===== */
+.course-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+/* ===== Meta ===== */
+.course-meta {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* ===== Description ===== */
+.course-description {
+  max-width: 900px;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+/* ===== Fields ===== */
+.course-fields {
+  margin-bottom: 10px;
+}
+
+/* ===== Badges ===== */
+.course-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

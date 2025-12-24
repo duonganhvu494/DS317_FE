@@ -3,6 +3,7 @@ import { WarningOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosClient from "../../api/axiosClient";
+import "./dangerCourseTable.css";
 
 export default function DangerCourseTable({ filters }) {
   const [courses, setCourses] = useState([]);
@@ -20,10 +21,10 @@ export default function DangerCourseTable({ filters }) {
           threshold: 3,
           page,
           limit: PAGE_SIZE,
-          ...filters
-        }
+          ...filters,
+        },
       })
-      .then(res => {
+      .then((res) => {
         setCourses(res.data.data);
         setTotal(res.data.total);
       })
@@ -35,40 +36,37 @@ export default function DangerCourseTable({ filters }) {
       title: "Course",
       render: (_, r) => (
         <>
-          <div style={{ fontWeight: 500 }}>{r.name_en}</div>
-          <div style={{ fontSize: 12, color: "#888" }}>
-            {r.school?.join(", ")}
-          </div>
+          <div className="danger-course-name">{r.name_en}</div>
+          <div className="danger-course-school">{r.school?.join(", ")}</div>
         </>
-      )
+      ),
     },
     {
       title: "Field",
       render: (_, r) =>
-        r.field_en?.length
-          ? r.field_en.map(f => <Tag key={f}>{f}</Tag>)
-          : <Tag color="default">NG</Tag>
+        r.field_en?.length ? (
+          r.field_en.map((f) => <Tag key={f}>{f}</Tag>)
+        ) : (
+          <Tag color="default">NG</Tag>
+        ),
+    },
+    {
+      title: "Completion",
+      dataIndex: "completion_rate",
+    },
+    {
+      title: "Sentiment",
+      dataIndex: "sentiment_index",
     },
     {
       title: "Final Rank",
       dataIndex: "final_rank",
-      render: rank => (
-        <Tag
-          color={rank <= 1 ? "red" : "orange"}
-          icon={<WarningOutlined />}
-        >
-          {rank}
+      render: (rank) => (
+        <Tag color={rank <= 1 ? "red" : "orange"} icon={<WarningOutlined />}>
+          Rank {rank}
         </Tag>
-      )
+      ),
     },
-    {
-      title: "Completion",
-      dataIndex: "completion_rate"
-    },
-    {
-      title: "Sentiment",
-      dataIndex: "sentiment_index"
-    }
   ];
 
   return (
@@ -81,15 +79,13 @@ export default function DangerCourseTable({ filters }) {
         current: page,
         pageSize: PAGE_SIZE,
         total,
-        onChange: p => setPage(p)
+        onChange: (p) => setPage(p),
       }}
-      onRow={record => ({
-        onClick: () => navigate(`/courses/${record._id}`)
+      onRow={(record) => ({
+        onClick: () => navigate(`/courses/${record._id}`),
       })}
-      rowClassName={r =>
-        r.final_rank <= 1
-          ? "danger-row-critical"
-          : "danger-row-warning"
+      rowClassName={(r) =>
+        r.final_rank <= 1 ? "danger-row-critical" : "danger-row-warning"
       }
     />
   );

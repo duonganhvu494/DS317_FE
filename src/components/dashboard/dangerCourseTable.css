@@ -1,0 +1,42 @@
+/* ===== Card ===== */
+.danger-card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== Table row base ===== */
+.ant-table-tbody > tr {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+/* Hover */
+.ant-table-tbody > tr:hover > td {
+  background: #e0e1e2 !important;
+}
+
+/* ===== Danger levels ===== */
+.danger-row-critical > td {
+  background: #fff1f0;
+}
+
+.danger-row-warning > td {
+  background: #fff7e6;
+}
+
+/* Emphasize course name */
+.danger-course-name {
+  font-weight: 600;
+}
+
+/* School sub text */
+.danger-course-school {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Pagination spacing */
+.ant-table-pagination {
+  margin-top: 16px;
+}

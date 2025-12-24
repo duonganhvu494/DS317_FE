@@ -1,0 +1,47 @@
+/* =========================
+   INTRODUCTION PAGE
+========================= */
+
+.introduction-page {
+  padding: 24px;
+  max-width: 1100px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Section */
+.intro-section {
+  margin-bottom: 28px;
+}
+
+/* Paragraph */
+.intro-section p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+/* Section title */
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* List */
+.intro-list {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.intro-list li {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 6px;
+  color: #333;
+}

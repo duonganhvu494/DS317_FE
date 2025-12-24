@@ -1,0 +1,28 @@
+/* =========================
+   MODELS PAGE
+========================= */
+
+.models-page {
+  padding: 24px;
+}
+
+/* Title */
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Tabs */
+.models-tabs .ant-tabs-nav {
+  margin-bottom: 16px;
+}
+
+.models-tabs .ant-tabs-tab {
+  font-weight: 500;
+  padding: 8px 16px;
+}
+
+.models-tabs .ant-tabs-tab-active {
+  font-weight: 600;
+}

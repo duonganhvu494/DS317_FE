@@ -1,7 +1,8 @@
-import { Table, Tag } from "antd";
+import { Table, Tag, Input } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
+import "./courses.css";
 
 export default function Courses() {
   const navigate = useNavigate();
@@ -9,25 +10,45 @@ export default function Courses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [search, setSearch] = useState("");
+  const [sorter, setSorter] = useState({
+    field: null,
+    order: null
+  });
+
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
     total: 0
   });
 
-  // ===== FETCH COURSES (SERVER SIDE PAGINATION) =====
-  const fetchCourses = async (page = 1, limit = 20) => {
+  // ======================
+  // FETCH COURSES
+  // ======================
+  const fetchCourses = async (
+    page = 1,
+    limit = 20,
+    keyword = search,
+    sort = sorter
+  ) => {
     setLoading(true);
     try {
       const res = await axiosClient.get("/courses", {
         params: {
           page,
-          limit
+          limit,
+          search: keyword,
+          sortBy: sort.field,
+          sortOrder:
+            sort.order === "ascend"
+              ? "asc"
+              : sort.order === "descend"
+              ? "desc"
+              : undefined
         }
       });
 
       setCourses(res.data.data);
-
       setPagination({
         current: page,
         pageSize: limit,
@@ -40,42 +61,32 @@ export default function Courses() {
     }
   };
 
-  // ===== LOAD FIRST PAGE =====
+  // ======================
+  // INITIAL LOAD
+  // ======================
   useEffect(() => {
     fetchCourses(pagination.current, pagination.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ===== TABLE COLUMNS =====
+  // ======================
+  // TABLE COLUMNS
+  // ======================
   const columns = [
     {
       title: "Course",
+      dataIndex: "name_en",
       width: 300,
       ellipsis: true,
+      sorter: true,
+      sortOrder:
+        sorter.field === "name_en" ? sorter.order : null,
       render: (_, r) => (
-        <div style={{ maxWidth: 280 }}>
-          <div
-            style={{
-              fontWeight: 500,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis"
-            }}
-            title={r.name_en}
-          >
+        <div className="course-cell">
+          <div className="course-name">
             {r.name_en}
           </div>
-
-          <div
-            style={{
-              fontSize: 12,
-              color: "#888",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis"
-            }}
-            title={r.school?.join(", ")}
-          >
+          <div className="course-school">
             {r.school?.join(", ")}
           </div>
         </div>
@@ -84,19 +95,31 @@ export default function Courses() {
     {
       title: "Completion",
       dataIndex: "completion_rate",
+      sorter: true,
+      sortOrder:
+        sorter.field === "completion_rate"
+          ? sorter.order
+          : null,
       width: 120
     },
     {
       title: "Sentiment",
       dataIndex: "sentiment_index",
+      sorter: true,
+      sortOrder:
+        sorter.field === "sentiment_index"
+          ? sorter.order
+          : null,
       width: 120
     },
     {
       title: "Field",
-      width: 200,
+      width: 220,
       render: (_, r) =>
         r.field_en?.length ? (
-          r.field_en.map(f => <Tag key={f}>{f}</Tag>)
+          r.field_en.map(f => (
+            <Tag key={f}>{f}</Tag>
+          ))
         ) : (
           <Tag color="default">NG</Tag>
         )
@@ -104,15 +127,48 @@ export default function Courses() {
     {
       title: "Final Rank",
       dataIndex: "final_rank",
-      width: 120
+      sorter: true,
+      sortOrder:
+        sorter.field === "final_rank"
+          ? sorter.order
+          : null,
+      width: 120,
+      render: rank => (
+        <Tag
+          color={
+            rank <= 1
+              ? "red"
+              : rank <= 2
+              ? "orange"
+              : "green"
+          }
+        >
+          {rank}
+        </Tag>
+      )
     }
   ];
 
   return (
-    <>
-      <h1>📚 Courses</h1>
+    <div className="courses-page">
+      <h1 className="page-title">📚 Courses</h1>
 
+      {/* ===== SEARCH BAR ===== */}
+      <div className="courses-toolbar">
+        <Input.Search
+          className="courses-search"
+          placeholder="Search course name..."
+          allowClear
+          onSearch={value => {
+            setSearch(value);
+            fetchCourses(1, pagination.pageSize, value);
+          }}
+        />
+      </div>
+
+      {/* ===== TABLE ===== */}
       <Table
+        className="courses-table"
         rowKey="_id"
         columns={columns}
         dataSource={courses}
@@ -123,15 +179,29 @@ export default function Courses() {
           total: pagination.total,
           showSizeChanger: true
         }}
-        onChange={(p) => {
-          fetchCourses(p.current, p.pageSize);
+        onChange={(p, _, s) => {
+          const newSorter = s.order
+            ? { field: s.field, order: s.order }
+            : { field: null, order: null };
+
+          setSorter(newSorter);
+
+          fetchCourses(
+            p.current,
+            p.pageSize,
+            search,
+            newSorter
+          );
         }}
-        onRow={(record) => ({
-          onClick: () => navigate(`/courses/${record._id}`)
+        onRow={record => ({
+          onClick: () =>
+            navigate(`/courses/${record._id}`)
         })}
-        style={{ cursor: "pointer" }}
         tableLayout="fixed"
+        locale={{
+          emptyText: "No courses found"
+        }}
       />
-    </>
+    </div>
   );
 }

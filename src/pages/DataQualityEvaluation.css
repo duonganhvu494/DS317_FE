@@ -1,0 +1,34 @@
+/* =========================
+   DATA QUALITY PAGE
+========================= */
+
+.dq-page {
+  padding: 24px;
+}
+
+/* KPI */
+.dq-kpi-row {
+  margin-bottom: 16px;
+}
+
+.dq-kpi-card {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Main cards */
+.dq-card {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Themes */
+.theme-green {
+  background: linear-gradient(135deg, #f6ffed, #ffffff);
+}
+
+.theme-blue {
+  background: linear-gradient(135deg, #e6f4ff, #ffffff);
+}

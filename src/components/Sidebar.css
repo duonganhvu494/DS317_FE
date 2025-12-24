@@ -1,0 +1,61 @@
+/* Sidebar container */
+.sidebar {
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+/* Logo / Header */
+.sidebar-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-weight: 600;
+  font-size: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Collapse button */
+.collapse-btn {
+  cursor: pointer;
+  color: #888;
+}
+
+.collapse-btn:hover {
+  color: #1677ff;
+}
+
+/* Ant menu override */
+.sidebar .ant-menu {
+  border-right: none;
+}
+
+.sidebar .ant-menu-item {
+  margin: 4px 8px;
+  border-radius: 8px;
+}
+
+/* Active item */
+.sidebar .ant-menu-item-selected {
+  background-color: #e6f4ff !important;
+  color: #1677ff !important;
+  font-weight: 600;
+}
+
+/* Hover effect */
+.sidebar .ant-menu-item:hover {
+  background-color: #f5f7fa;
+}
+
+/* Icon size */
+.sidebar .ant-menu-item-icon {
+  font-size: 18px;
+}
+
+/* Collapsed */
+.sidebar.collapsed {
+  width: 80px !important;
+}

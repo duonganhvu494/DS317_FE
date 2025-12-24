@@ -1,0 +1,68 @@
+/* =========================
+   BASE – CHUNG
+========================= */
+
+.course-chart {
+  border-radius: 16px;
+  border: none;
+  padding: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.course-chart .ant-card-head-title {
+  font-weight: 600;
+}
+
+.course-chart .ant-card-extra {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Recharts common */
+.recharts-cartesian-axis-tick {
+  font-size: 11px;
+  fill: #888;
+}
+
+.recharts-legend-item-text {
+  font-size: 12px;
+  color: #555;
+}
+
+.recharts-default-tooltip {
+  border-radius: 8px !important;
+  border: 1px solid #f0f0f0 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-size: 12px;
+}
+
+/* Note */
+.course-chart-note {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed #e5e5e5;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.6;
+}
+
+/* =========================
+   TREND CHART
+========================= */
+
+
+
+/* =========================
+   STUDENT PROGRESS CHART
+   (KHÔNG HOVER – nặng dữ liệu)
+========================= */
+
+.progress-chart {
+  /* intentionally no hover */
+}
+
+/* =========================
+   ENGAGEMENT CHART
+========================= */
+
+

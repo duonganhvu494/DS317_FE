@@ -1,29 +1,51 @@
+// ==============================
+// src/layouts/MainLayout.jsx
+// ==============================
+
 import { Layout } from "antd";
 import Sidebar from "../components/Sidebar";
+import { useState } from "react";
 
 const { Content, Sider } = Layout;
 
 export default function MainLayout({ children }) {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider width={220} style={{ background: "#fff" }}>
-        <div
+      {/* SIDER */}
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        trigger={null}
+        width={220}
+        collapsedWidth={80}
+        style={{
+          background: "#fff",
+          borderRight: "1px solid #f0f0f0"
+        }}
+      >
+        <Sidebar
+          collapsed={collapsed}
+          onToggle={() => setCollapsed(!collapsed)}
+        />
+      </Sider>
+
+      {/* CONTENT */}
+      <Layout
+        style={{
+          padding: 16,
+          background: "#f5f6fa"
+        }}
+      >
+        <Content
           style={{
-            height: 64,
-            fontWeight: 600,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
+            background: "#f5f6fa",
+            overflowY: "auto"
           }}
         >
-          Course Analytics
-        </div>
-        <Sidebar />
-      </Sider>
-      <Layout style={{ margin: -8, padding: 12 }}>
-          <Content style={{ background: "#f5f6fa" }}>
-            {children}
-          </Content>
+          {children}
+        </Content>
       </Layout>
     </Layout>
   );

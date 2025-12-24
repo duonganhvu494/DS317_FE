@@ -1,0 +1,4 @@
+name,Accuracy,Precision_macro,Recall_macro,F1_macro,Precision_weighted,Recall_weighted,F1_weighted
+ TCN,0.7611,0.6117,0.5827,0.5844,0.7219,0.7611,0.7315
+BiLSTM,0.6365,0.5618,0.5565,0.5473,0.671,0.6365,0.6491
+GRU,0.7584,0.6727,0.6375,0.6503,0.7458,0.7584,0.7491

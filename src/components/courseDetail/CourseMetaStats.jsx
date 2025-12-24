@@ -5,13 +5,6 @@ export default function CourseMetaStats({ course }) {
     <Row gutter={24} style={{ marginBottom: 24 }}>
       <Col span={8}>
         <Card>
-          <div style={{ color: "#888" }}>Duration</div>
-          <h3>{course.course_duration.toFixed(1)} hours</h3>
-        </Card>
-      </Col>
-
-      <Col span={8}>
-        <Card>
           <div style={{ color: "#888" }}>Students Enrolled</div>
           <h3>{course.num_students?.enroll ?? 0}</h3>
         </Card>

@@ -1,0 +1,101 @@
+/* ===== Wrapper ===== */
+.course-overview {
+  margin-bottom: 32px;
+}
+
+.course-overview-row {
+  margin-bottom: 24px;
+}
+
+/* ===== Base card ===== */
+.overview-card {
+  border-radius: 16px;
+  border: none;
+  padding: 22px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+/* ===== Icon ===== */
+.overview-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+/* ===== Title ===== */
+.overview-title {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-bottom: 4px;
+}
+
+/* ===== Value ===== */
+.overview-value {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+/* ===== Meta card ===== */
+.overview-card.meta {
+  padding: 26px;
+}
+
+/* =========================
+   COLOR THEMES
+========================= */
+
+/* BLUE – Completion */
+.theme-blue {
+  background: linear-gradient(135deg, #e6f4ff, #ffffff);
+}
+.theme-blue .overview-icon,
+.theme-blue .overview-value {
+  color: #1677ff;
+}
+
+/* ORANGE – Sentiment */
+.theme-orange {
+  background: linear-gradient(135deg, #fff7e6, #ffffff);
+}
+.theme-orange .overview-icon,
+.theme-orange .overview-value {
+  color: #fa8c16;
+}
+
+/* CYAN – Video */
+.theme-cyan {
+  background: linear-gradient(135deg, #e6fffb, #ffffff);
+}
+.theme-cyan .overview-icon,
+.theme-cyan .overview-value {
+  color: #13c2c2;
+}
+
+/* GREEN – Exercise */
+.theme-green {
+  background: linear-gradient(135deg, #f6ffed, #ffffff);
+}
+.theme-green .overview-icon,
+.theme-green .overview-value {
+  color: #52c41a;
+}
+
+/* PURPLE – Enrolled */
+.theme-purple {
+  background: linear-gradient(135deg, #f9f0ff, #ffffff);
+}
+.theme-purple .overview-icon,
+.theme-purple .overview-value {
+  color: #722ed1;
+}
+
+/* RED – Dropout */
+.theme-red {
+  background: linear-gradient(135deg, #fff1f0, #ffffff);
+}
+.theme-red .overview-icon,
+.theme-red .overview-value {
+  color: #ff4d4f;
+}

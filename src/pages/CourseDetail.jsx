@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import axiosClient from "../api/axiosClient";
 
 import CourseHeader from "../components/courseDetail/CourseHeader";
-import CourseStats from "../components/courseDetail/CourseStats";
-import CourseMetaStats from "../components/courseDetail/CourseMetaStats";
+import CourseOverviewStats from "../components/courseDetail/CourseOverviewStats";
+
 import StudentProgressChart from "../components/courseDetail/StudentProgressChart";
-import RatingDistributionChart from "../components/courseDetail/RatingDistributionChart";
-import WeeklyEngagementChart from "../components/courseDetail/WeeklyEngagementChart";
-import StudentFeedbackList from "../components/courseDetail/StudentFeedbackList";
+import CourseTrendChart from "../components/courseDetail/CourseTrendChart";
+import CourseEngagementQualityChart from "../components/courseDetail/CourseEngagementQualityChart";
 
 export default function CourseDetail() {
   const { courseId } = useParams();
@@ -19,7 +18,7 @@ export default function CourseDetail() {
   useEffect(() => {
     axiosClient
       .get(`/courses/${courseId}`)
-      .then(res => {
+      .then((res) => {
         setCourse(res.data);
         setLoading(false);
       })
@@ -34,21 +33,24 @@ export default function CourseDetail() {
     <>
       {/* ===== DATA THẬT ===== */}
       <CourseHeader course={course} />
-      <CourseStats course={course} />
-      <CourseMetaStats course={course} />
+      <CourseOverviewStats course={course} />
 
       {/* ===== CHART (GIỮ MOCK / PYTHON SAU) ===== */}
       <Row gutter={24} style={{ marginBottom: 24 }}>
-        <Col span={14}>
-          <StudentProgressChart />
-        </Col>
-        <Col span={10}>
-          <RatingDistributionChart />
+        <Col span={24}>
+          <CourseTrendChart courseId={courseId} />
         </Col>
       </Row>
-
-      <WeeklyEngagementChart />
-      <StudentFeedbackList />
+      <Row gutter={24} style={{ marginBottom: 24 }}>
+        <Col span={24}>
+          <StudentProgressChart courseId={courseId} />
+        </Col>
+      </Row>
+      <Row gutter={24} style={{ marginBottom: 24 }}>
+        <Col span={24}>
+          <CourseEngagementQualityChart courseId={courseId} />
+        </Col>
+      </Row>
     </>
   );
 }
